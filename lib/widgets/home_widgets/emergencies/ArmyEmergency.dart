@@ -48,7 +48,7 @@ class ArmyEmergency extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Army Emergency',
+                          'Tourist Police',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -56,7 +56,7 @@ class ArmyEmergency extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Counterterrorism Agency',
+                          'For Forigners',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: MediaQuery.of(context).size.width * 0.045,

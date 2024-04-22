@@ -38,7 +38,8 @@ class FirebrigadeEmergency extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 25,
-                    backgroundColor: Color.fromARGB(255, 234, 187, 125).withOpacity(0.9),
+                    backgroundColor:
+                        Color.fromARGB(255, 234, 187, 125).withOpacity(0.9),
                     child: Image.asset('assets/fire.png'),
                   ),
                   Expanded(
@@ -47,7 +48,7 @@ class FirebrigadeEmergency extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Fire brigade',
+                          'Women Bureau',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -55,10 +56,10 @@ class FirebrigadeEmergency extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Fire emergency',
+                          'Report any type of crime',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: MediaQuery.of(context).size.width * 0.045,
+                            fontSize: MediaQuery.of(context).size.width * 0.040,
                           ),
                         ),
                         Container(
