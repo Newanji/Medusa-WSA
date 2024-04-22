@@ -114,7 +114,7 @@ bool validateFields() {
         context: context,
         builder: (_) {
           return AlertDialog(
-            title: Text("Add New Councillors"),
+            title: Text("Add New Councillor or Lawyer"),
             content: SingleChildScrollView(
               child: Form(
                 child: Column(
@@ -123,14 +123,14 @@ bool validateFields() {
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: CustomTextField(
-                        hintText: 'Enter Councillor Name',
+                        hintText: 'Enter Name',
                         controller: namecC,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: CustomTextField(
-                        hintText: 'Enter Councillor Phone',
+                        hintText: 'Enter Phone',
                         controller: phoneC,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly
@@ -140,7 +140,7 @@ bool validateFields() {
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: CustomTextField(
-                        hintText: 'Type of Councillor',
+                        hintText: 'Type',
                         controller: typeC,
                       ),
                     ),
@@ -218,7 +218,7 @@ bool validateFields() {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Councillors'),
+        title: Text('Councillors and Lawyers'),
         backgroundColor: Colors.red.shade300,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),

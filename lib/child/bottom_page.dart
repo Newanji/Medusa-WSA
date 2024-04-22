@@ -83,7 +83,7 @@ class _BottomPageState extends State<BottomPage> {
               tooltip: 'Home',
               child: Icon(Icons.home, color: Colors.black),
               // elevation: 2.0,
-              backgroundColor: Colors.red.shade300,
+              backgroundColor: const Color.fromRGBO(229, 115, 115, 1),
             ),
             SizedBox(width: 20.0),
             IconButton(
