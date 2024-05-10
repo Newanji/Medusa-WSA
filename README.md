@@ -2,7 +2,7 @@
 
 Welcome to Medusa Women safety app.This guide helps you to setup the application on your end.  
 
-##Prerequisits  
+## Prerequisits  
 Flutter 3.19.0  
 
 ## Clone the Repository  
