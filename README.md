@@ -6,4 +6,6 @@ Welcome to Medusa Women safety app.This guide helps you to setup the application
 Flutter 3.19.0  
 
 [![Copy](https://img.shields.io/badge/Copy-Button-blue)](javascript:void(0))
+[<i class="fas fa-copy"></i> Copy](javascript:void(0))
+
 
