@@ -5,27 +5,21 @@ Welcome to Medusa Women safety app.This guide helps you to setup the application
 ##Prerequisits  
 Flutter 3.19.0  
 
-[![Copy Button](https://img.shields.io/badge/Copy-Button-blue)](javascript:void(0))
-<script>
-function copyToClipboard(text) {
-    var input = document.createElement('input');
-    input.setAttribute('value', text);
-    document.body.appendChild(input);
-    input.select();
-    document.execCommand('copy');
-    document.body.removeChild(input);
-    alert('Link copied to clipboard!');
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    var copyButton = document.querySelector('img[alt="Copy Button"]');
-    copyButton.addEventListener('click', function() {
-        var link = 'https://www.example.com'; // Replace with your actual URL
-        copyToClipboard(link);
-    });
-});
-</script>
+## Clone the Repository  
 
 
 
+## setup medusa App
+open the downloaded/cloned folder with any IDE(VS code/Android Studio)  
+navigate to the project's directory.    
+open a new terminal and Run **flutter pub get** to install the app's dependencies listed in the pubspec.yaml file.  
+Set Up Device: Ensure you have a device connected or an emulator running.  
+Run the App: Use the VS Code terminal to run the app with **flutter run**  
+
+
+
+
+ # License
+
+This project is not licensed. You are free to use, modify, and distribute the code as you see fit. However, please note that without a license, others may not have clear legal permissions to use your project.  
 
