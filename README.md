@@ -6,7 +6,7 @@ Welcome to Medusa Women safety app.This guide helps you to setup the application
 Flutter 3.19.0  
 
 ## Clone the Repository  
-
+https://github.com/Newanji/Medusa-WSA.git
 
 
 ## setup medusa App
@@ -19,7 +19,7 @@ Run the App: Use the VS Code terminal to run the app with **flutter run**
 
 
 
- # License
+ ## License
 
 This project is not licensed. You are free to use, modify, and distribute the code as you see fit. However, please note that without a license, others may not have clear legal permissions to use your project.  
 
