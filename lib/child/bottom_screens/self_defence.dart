@@ -90,7 +90,7 @@ class _SelfDefenceState extends State<SelfDefence> {
                                       Text(
                                         "Watch Tutorial",
                                         style: TextStyle(
-                                          color: Colors.blue,
+                                          color: Colors.blue,//youtube link color
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),

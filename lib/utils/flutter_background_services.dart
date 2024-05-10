@@ -114,20 +114,6 @@ void onStart(ServiceInstance service) async {
                   "https://www.google.com/maps/search/?api=1&query=${_curentPosition!.latitude}%2C${_curentPosition!.longitude}";
               sendMessage(messageBody);
             });
-
-        // flutterLocalNotificationsPlugin.show(
-        //   888,
-        //   "women safety app",
-        //   "shake feature enable",
-        //   NotificationDetails(
-        //       android: AndroidNotificationDetails(
-        //     "script academy",
-        //     "foregrounf service",
-        //     "used for imp notifcation",
-        //     icon: 'ic_bg_service_small',
-        //     ongoing: true,
-        //   )),
-        // );
       }
     }
   });

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/child/child_login_screen.dart';
 import 'package:flutter_application_1/model/user_model.dart';
 import 'package:flutter_application_1/utils/constants.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../components/PrimaryButton.dart';
 import '../components/SecondaryButton.dart';
 import '../components/custom_textfield.dart';
@@ -39,29 +40,44 @@ class _RegisterChildScreenState extends State<RegisterChildScreen> {
                 email: _formData['cemail'].toString(),
                 password: _formData['password'].toString());
         if (userCredential.user != null) {
-          setState(() {
-            isLoading = true;
-          });
-          final v = userCredential.user!.uid;
-          DocumentReference<Map<String, dynamic>> db =
-              FirebaseFirestore.instance.collection('users').doc(v);
-
-          final user = UserModel(
-            name: _formData['name'].toString(),
-            phone: _formData['phone'].toString(),
-            childEmail: _formData['cemail'].toString(),
-            gender: _formData['gender'].toString(),
-            dob: _formData['dob'].toString(),
-            id: v,
-            type: 'child',
-          );
-          final jsonData = user.toJson();
-          await db.set(jsonData).whenComplete(() {
-            goTo(context, LoginScreen());
+          final user = userCredential.user!;
+          if (!user.emailVerified) {
+            // Send email verification
+            await user.sendEmailVerification();
             setState(() {
               isLoading = false;
             });
-          });
+            // Display success message to the user
+            Fluttertoast.showToast(
+                msg:
+                    'Verification email sent. Please verify your email before logging in.');
+          } else {
+            // If the email is already verified, proceed with saving user data
+            setState(() {
+              isLoading = true;
+            });
+            final v = user.uid;
+            DocumentReference<Map<String, dynamic>> db =
+                FirebaseFirestore.instance.collection('users').doc(v);
+
+            final userData = UserModel(
+              name: _formData['name'].toString(),
+              phone: _formData['phone'].toString(),
+              childEmail: _formData['cemail'].toString(),
+              gender: _formData['gender'].toString(),
+              dob: _formData['dob'].toString(),
+              id: v,
+              type: 'child',
+            );
+            final jsonData = userData.toJson();
+            await db.set(jsonData).whenComplete(() {
+              goTo(context, LoginScreen());
+              setState(() {
+                isLoading = false;
+                Fluttertoast.showToast(msg: 'Registration Successful');
+              });
+            });
+          }
         }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
@@ -113,7 +129,7 @@ class _RegisterChildScreenState extends State<RegisterChildScreen> {
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
               Colors.white
-                  .withOpacity(0.5), // Adjust the opacity value as needed
+                  .withOpacity(0.9), // Adjust the opacity value as needed
               BlendMode.srcOver,
             ),
           ),
@@ -138,7 +154,7 @@ class _RegisterChildScreenState extends State<RegisterChildScreen> {
                                   style: TextStyle(
                                       fontSize: 40,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.grey.shade600),
+                                      color: Colors.grey.shade600),//text color
                                 ),
                                 Image.asset(
                                   'assets/logo.png',

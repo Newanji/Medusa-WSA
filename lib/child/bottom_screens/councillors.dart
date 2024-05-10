@@ -7,6 +7,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_application_1/components/PrimaryButton.dart';
 import 'package:flutter_application_1/components/custom_textfield.dart';
 
+enum UserType { councillor, lawyer }
+
 class CouncillorsPage extends StatefulWidget {
   @override
   State<CouncillorsPage> createState() => _CouncillorsPageState();
@@ -27,7 +29,7 @@ void _deleteCouncillor(String documentId) async {
     print("Error deleting councillor: $e");
     Fluttertoast.showToast(msg: 'Failed to delete councillor');
   }
-}
+} // delete councillor function
 
 void _showConfirmationDialog(BuildContext context, String phoneNumber) {
   showDialog(
@@ -88,99 +90,118 @@ class _CouncillorsPageState extends State<CouncillorsPage> {
   TextEditingController viewsC = TextEditingController();
   TextEditingController namecC = TextEditingController();
   TextEditingController phoneC = TextEditingController();
-  TextEditingController typeC = TextEditingController();
 
+  UserType? _selectedType;
   bool isSaving = false;
 
-bool validateFields() {
-  if (namecC.text.isEmpty || phoneC.text.isEmpty || typeC.text.isEmpty || viewsC.text.isEmpty) {
-    Fluttertoast.showToast(msg: 'Please fill all fields');
-    return false;
-  } else if (phoneC.text.length < 10) {
-    Fluttertoast.showToast(msg: 'Please add correct phone number');
-    return false;
+  bool validateFields() {
+    if (namecC.text.isEmpty ||
+        phoneC.text.isEmpty ||
+        _selectedType == null ||
+        viewsC.text.isEmpty) {
+      Fluttertoast.showToast(msg: 'Please fill all fields');
+      return false;
+    } else if (phoneC.text.length < 10) {
+      Fluttertoast.showToast(msg: 'Please add correct phone number');
+      return false;
+    }
+    return true;
   }
-  return true;
-}
-
 
   showAlert(BuildContext context) {
     namecC.clear();
     phoneC.clear();
-    typeC.clear();
     viewsC.clear();
 
     showDialog(
-        context: context,
-        builder: (_) {
-          return AlertDialog(
-            title: Text("Add New Councillor or Lawyer"),
-            content: SingleChildScrollView(
-              child: Form(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: CustomTextField(
-                        hintText: 'Enter Name',
-                        controller: namecC,
-                      ),
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("Add New Councillor or Lawyer"),
+          content: SingleChildScrollView(
+            child: Form(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: CustomTextField(
+                      hintText: 'Enter Name',
+                      controller: namecC,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: CustomTextField(
-                        hintText: 'Enter Phone',
-                        controller: phoneC,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: CustomTextField(
+                      hintText: 'Enter Phone',
+                      controller: phoneC,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: CustomTextField(
-                        hintText: 'Type',
-                        controller: typeC,
-                      ),
+                  ),
+                  ListTile(
+                    title: Text('Councillor'),
+                    leading: Radio<UserType>(
+                      value: UserType.councillor,
+                      groupValue: _selectedType,
+                      onChanged: (UserType? value) {
+                        setState(() {
+                          _selectedType = value;
+                        });
+                      },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: CustomTextField(
-                        controller: viewsC,
-                        hintText: 'Description',
-                        maxLines: 3,
-                      ),
+                  ),
+                  ListTile(
+                    title: Text('Lawyer'),
+                    leading: Radio<UserType>(
+                      value: UserType.lawyer,
+                      groupValue: _selectedType,
+                      onChanged: (UserType? value) {
+                        setState(() {
+                          _selectedType = value;
+                        });
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: CustomTextField(
+                      controller: viewsC,
+                      hintText: 'Description',
+                      maxLines: 3,
+                    ),
+                  ),
+                ],
               ),
             ),
-            actions: [
-              PrimaryButton(
-                title: "SAVE",
-                onPressed: () {
-                  if (validateFields()) {
-                    saveReview();
-                    Navigator.pop(context); // Close the AlertDialog
-                  }
-                },
-              ),
-              TextButton(
-                child: Text("Cancel"),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          );
-        });
+          ),
+          actions: [
+            PrimaryButton(
+              title: "SAVE",
+              onPressed: () {
+                if (validateFields()) {
+                  saveReview();
+                  Navigator.pop(context); // Close the AlertDialog
+                }
+              },
+            ),
+            TextButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   saveReview() async {
     if (namecC.text.isEmpty ||
         phoneC.text.isEmpty ||
-        typeC.text.isEmpty ||
+        _selectedType == null ||
         viewsC.text.isEmpty) {
       Fluttertoast.showToast(msg: 'Please fill all fields');
       return;
@@ -191,15 +212,12 @@ bool validateFields() {
     });
 
     try {
-      DocumentReference docRef =
-          await FirebaseFirestore.instance.collection('councillor').add({
+      await FirebaseFirestore.instance.collection('councillor').add({
         'name': namecC.text,
         'phone': phoneC.text,
-        'type': typeC.text,
+        'type': _selectedType == UserType.councillor ? 'Councillor' : 'Lawyer',
         'views': viewsC.text
       });
-
-      String documentId = docRef.id; // Get the ID of the newly added document
 
       setState(() {
         isSaving = false;
@@ -219,7 +237,7 @@ bool validateFields() {
     return Scaffold(
       appBar: AppBar(
         title: Text('Councillors and Lawyers'),
-        backgroundColor: Colors.red.shade300,
+        backgroundColor: Colors.red.shade300,//Top app bar color
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () async {
@@ -231,7 +249,7 @@ bool validateFields() {
             );
           },
         ),
-      ),
+      ), //Top App bar
       body: isSaving == true
           ? Center(child: CircularProgressIndicator())
           : SafeArea(
@@ -255,9 +273,9 @@ bool validateFields() {
                             return Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Card(
-                                color: Colors.pink.shade100,
+                                color: Colors.pink.shade100, //bg color of added text
                                 elevation: 5,
-                                // color: Colors.primaries[Random().nextInt(17)],
+                                
                                 child: ListTile(
                                   title: Column(
                                     crossAxisAlignment:
@@ -294,7 +312,7 @@ bool validateFields() {
                                   trailing: IconButton(
                                     icon: Icon(
                                       Icons.delete,
-                                      color: Colors.red,
+                                      color: Colors.red, // icon delete color
                                     ),
                                     onPressed: () {
                                       _showDeleteConfirmationDialog(context,
@@ -313,7 +331,7 @@ bool validateFields() {
               ),
             ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.pink,
+        backgroundColor: Colors.pink, 
         onPressed: () {
           showAlert(context);
         },

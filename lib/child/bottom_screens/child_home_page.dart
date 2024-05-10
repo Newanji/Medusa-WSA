@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/child/bottom_screens/self_defence.dart';
+import 'package:flutter_application_1/child/child_login_screen.dart';
 import 'package:flutter_application_1/components/custom_textfield.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
@@ -77,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
             imagePath: 'assets/h1.png',
             description:
                 'Happiness starts from within. Discover self-care practices that nourish your mind, body, and soul. Engage in activities like meditation, yoga, or a leisurely walk in nature. Prioritize your well-being and make time for activities that bring you joy and rejuvenation.',
+          
           ),
           SizedBox(height: 10),
           _buildImageWithDescription(
@@ -300,18 +302,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.comment),
-            tooltip: 'Comment Icon',
-            onPressed: () {},
-          ), //IconButton
-          IconButton(
-            icon: const Icon(Icons.settings),
-            tooltip: 'Setting Icon',
-            onPressed: () {},
-          ), //IconButton
-        ],
         titleSpacing: 00.0,
         centerTitle: true,
         toolbarHeight: 60.2,
@@ -325,8 +315,41 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.red.shade300,
         leading: IconButton(
           icon: const Icon(Icons.menu),
-          tooltip: 'Menu Icon',
-          onPressed: () {},
+          tooltip: 'Menu Icon', //  Sign out Icon
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Confirm Sign Out"),
+                  content: Text("Are you sure you want to sign out?"),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Close the dialog
+                      },
+                      child: Text("CANCEL"),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        try {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()),
+                          );
+                        } catch (e) {
+                          print('Sign out error: $e');
+                          // Handle sign out error
+                        }
+                      },
+                      child: Text("SIGN OUT"),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
         ),
         systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
@@ -376,18 +399,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       Row(
                         children: [
                           Text(
-                            "Hi,",
+                            "Hi,", // Top page Hi message with profile pic
                             style: TextStyle(
                               fontSize: 13,
-                              color: Colors.black87,
+                              color: Colors.black87, // Hi message text color
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(width: 150),
+                          SizedBox(width: 130),
+                          SizedBox(
+                            height: 50,
+                          ),
                           ElevatedButton(
                             onPressed: _navigateToSelfDefensePage,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey,
+                              backgroundColor: Colors.grey, // self defence button color
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
@@ -431,7 +457,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       children: [
                         Text(
-                          "How do you feel today?",
+                          "How do you feel today?", // Mood tracking
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -468,7 +494,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    Emergency(),
+                    Emergency(), //Nevigate to the emergency services calls
                     SizedBox(height: 30),
                     Align(
                       alignment: Alignment.center,
@@ -484,7 +510,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    LiveSafe(),
+                    LiveSafe(), //Nevigate to the emergency services locations pages
                   ],
                 ),
               ),

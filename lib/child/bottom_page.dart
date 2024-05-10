@@ -101,7 +101,7 @@ class _BottomPageState extends State<BottomPage> {
             IconButton(
               icon: Icon(
                 Icons.groups,
-                color: currentIndex == 4 ? Colors.white : Colors.black,
+                color: currentIndex == 4 ? Colors.white : Colors.black, // after click current app icon change in to 
               ),
               onPressed: () {
                 setState(() {
@@ -109,20 +109,10 @@ class _BottomPageState extends State<BottomPage> {
                 });
               },
             ),
-            // IconButton(
-            //   icon: Icon(
-            //     Icons.girl,
-            //     color: currentIndex == 5 ? Colors.white : Colors.black,
-            //   ),
-            //   onPressed: () {
-            //     setState(() {
-            //       currentIndex = 5;
-            //     });
-            //   },
-            // ),
+         
           ],
         ),
-        color: Colors.red.shade300,
+        color: Colors.red.shade300, // bottomApp bar color
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

@@ -20,6 +20,7 @@ class _AddContactsPageState extends State<AddContactsPage> {
   DatabaseHelper databasehelper = DatabaseHelper();
   List<TContact>? contactList;
   int count = 0;
+ 
 
   void showList() {
     Future<Database> dbFuture = databasehelper.initializeDatabase();
@@ -77,20 +78,29 @@ class _AddContactsPageState extends State<AddContactsPage> {
         padding: EdgeInsets.all(12),
         child: Column(
           children: [
-            PrimaryButton(
-              title: "Add Trusted Contacts",
-              onPressed: () async {
-                bool result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ContactsPage(),
-                  ),
-                );
-                if (result == true) {
-                  showList();
-                }
-              },
-            ),
+          PrimaryButton(
+  title: "Add Trusted Contacts",
+  onPressed: () async {
+    if (count < 5) { //Add 5 limit to the contact 
+      bool result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ContactsPage(),
+        ),
+      );
+      if (result == true) {
+        showList();
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: "You can only add up to 5 contacts.",
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Color.fromARGB(255, 0, 0, 0),
+      );
+    }
+  },
+),
+
             Expanded(
               child: ListView.builder(
                 itemCount: count,
@@ -111,7 +121,7 @@ class _AddContactsPageState extends State<AddContactsPage> {
                                   );
                                 },
                                 icon: Icon(
-                                  Icons.call,
+                                  Icons.call, //call icon
                                   color: Colors.red,
                                 ),
                               ),
@@ -120,7 +130,7 @@ class _AddContactsPageState extends State<AddContactsPage> {
                                   deleteContact(contactList![index]);
                                 },
                                 icon: Icon(
-                                  Icons.delete,
+                                  Icons.delete, //delete icon
                                   color: Colors.red,
                                 ),
                               ),
