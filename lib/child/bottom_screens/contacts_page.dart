@@ -56,7 +56,7 @@ class _ContactsPageState extends State<ContactsPage> {
     setState(() {
       contactsFiltered = _contacts;
     });
-  }
+  }  // Filter contacts based on search query
 
   Future<void> askPermissions() async {
     PermissionStatus permissionStatus = await getContactsPermissions();
@@ -95,7 +95,7 @@ class _ContactsPageState extends State<ContactsPage> {
     setState(() {
       contacts = _contacts;
     });
-  }
+  }      // Fetch all contacts
 
   @override
   Widget build(BuildContext context) {
